@@ -79,7 +79,7 @@ function App() {
             alert("Please enter a key")
             return
         }
-        let txt = window.prompt("Type the text you want KeyboardSoundPlayer to say")
+        let txt = window.prompt("Type some text or a function name")
         if (txt === null) {
             return
         }
@@ -98,7 +98,7 @@ function App() {
                 <h2>Key Mapping</h2>
                 <br/>
                 <br/>
-                <input type="text" ref={key} placeholder="Type a key"/>
+                <input type="text" ref={key} placeholder="Type a key" maxLength="10"/>
                 <br/>
                 <br/>
                 <button className="blue" onClick={yt}>YouTube URL</button>
