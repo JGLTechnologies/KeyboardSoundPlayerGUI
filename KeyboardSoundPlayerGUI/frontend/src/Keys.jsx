@@ -38,7 +38,7 @@ function Keys() {
                 <ul className="keys">
                     {
                         list.map(key => (
-                            <li key={key} className="upper-left">{key.toUpperCase()} -> {keys[key]}
+                            <li key={key} className="upper-left">{key.toUpperCase()} -&gt; {keys[key]}
                                 <button className="delete" onClick={() => {
                                     let currentKeys = keys.valueOf()
                                     delete currentKeys[key]
@@ -57,7 +57,7 @@ function Keys() {
     } else {
         return (
             <div>
-                <Head name="Key Mapping"/>
+                <Head name="Key Configuration"/>
                 <p className="upper-left">No keys have been configured.</p>
             </div>
         )
