@@ -34,7 +34,7 @@ function Keys() {
     if (list.length > 0) {
         return (
             <div>
-                <Head name="Key Mapping"/>
+                <Head name="Key Maps"/>
                 <ul className="keys">
                     {
                         list.map(key => (
