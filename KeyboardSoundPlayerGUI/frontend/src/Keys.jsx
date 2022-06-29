@@ -1,40 +1,68 @@
-import {useEffect, useState} from "react";
-import {GetKeys, SetKeys, RemoveMP3} from "../wailsjs/go/main/App";
-import "./App.css";
+import {useCallback, useEffect, useReducer, useState} from "react";
+import {GetKeys, RemoveMP3, SetKeys} from "../wailsjs/go/main/App";
+import "./assets/App.css";
+import Head from "./Head";
 
 function Keys() {
-    let [keys, changeKeys] = useState({})
+    let [keys, changeKeys] = useState(null)
+    let [_, update] = useState(0)
+
+    let forceUpdate = useCallback(() => {
+        update(value => value + 1)
+    }, [])
 
     useEffect(() => {
         async function fetchKeys() {
-            if (keys.length === 0) {
-                changeKeys(await GetKeys())
+            let newKeys = await GetKeys()
+            if (newKeys !== undefined && newKeys !== null) {
+                changeKeys(newKeys)
             } else {
-                await SetKeys(keys)
+                changeKeys({})
             }
         }
+
         fetchKeys()
-    }, [keys])
+    }, [])
 
-    useEffect(() => {
-    })
+    let list
+    if (keys === undefined || keys === null) {
+        list = []
+    } else {
+        list = Object.keys(keys)
+    }
 
-    return (
-        <ul>
-            {
-                Object.keys(keys).map(key => (
-                    <li>{key.toUpperCase()}: {keys[key]}
-                        <button className="delete" onClick={() => {
-                            let currentKeys = keys.valueOf()
-                            delete currentKeys[key]
-                            changeKeys(currentKeys)
-                            RemoveMP3(key)
-                        }}>X</button>
-                    </li>
-                ))
-            }
-        </ul>
-    )
+    if (list.length > 0) {
+        return (
+            <div>
+                <Head name="Key Mapping"/>
+                <ul>
+                    {
+                        list.map(key => (
+                            <li key={key} className="upper-left">{key.toUpperCase()} -> {keys[key]}
+                                <button className="delete" onClick={() => {
+                                    let currentKeys = keys.valueOf()
+                                    delete currentKeys[key]
+                                    changeKeys(currentKeys)
+                                    SetKeys(keys)
+                                    RemoveMP3(key)
+                                    forceUpdate()
+                                }}>X
+                                </button>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+        )
+    } else {
+        return (
+            <div>
+                <Head name="Key Mapping"/>
+                <p className="upper-left">No keys have been configured.</p>
+            </div>
+        )
+    }
+
 }
 
 export default Keys

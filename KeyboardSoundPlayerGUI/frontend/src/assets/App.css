@@ -1,6 +1,15 @@
 .delete {
     border-radius: 5px;
     color: red;
+    margin-left: 5px;
+    border-color: currentColor;
+}
+
+.upper-left {
+    position: relative;
+    top: 10px;
+    left: 10px;
+    font-size: 15px;
 }
 
 .center {
@@ -24,10 +33,21 @@ body {
     padding: 5px;
 }
 
+#start {
+    background-color: forestgreen;
+}
+
+#stop {
+    background-color: red;
+}
+
+.blue {
+    background-color: dodgerblue;
+}
+
 #form button {
     margin-right: 5px;
     margin-left: 5px;
-    background-color: dodgerblue;
     padding: 7px;
     border-radius: 5px;
     width: 115px;

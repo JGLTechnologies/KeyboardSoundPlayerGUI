@@ -1,6 +1,19 @@
 import Head from "./Head";
 import {useRef} from "react";
-import {AddKey, FilePrompt} from "../wailsjs/go/main/App";
+import {AddKey, FilePrompt, GetPort} from "../wailsjs/go/main/App";
+import "./assets/App.css"
+
+function startCallback() {
+    window.open("file:///main.exe")
+}
+
+function stopCallback() {
+    async function func() {
+        fetch(`http://localhost:${await GetPort()}/stop`)
+    }
+    func()
+}
+
 
 function App() {
     let key = useRef(null)
@@ -12,7 +25,10 @@ function App() {
         }
         let url = window.prompt("Type a youtube url")
         if (!url.startsWith("https://")) {
-            alert("URL must start with https://")
+            url = "https://" + url
+        }
+        if (!url.startsWith("https://youtube.com")) {
+            alert("Invalid URL")
             key.current.value = ""
             return
         }
@@ -26,14 +42,9 @@ function App() {
             return
         }
         async function func() {
-            let [file, error] = await FilePrompt()
+            let file = await FilePrompt()
             console.log(file)
             if (file === "") {
-                return
-            }
-            if (error) {
-                alert("Something went wrong")
-                key.current.value = ""
                 return
             }
             AddKey(key.current.value, file)
@@ -47,7 +58,11 @@ function App() {
             alert("Please enter a key")
             return
         }
-        let txt = window.prompt("Type a youtube url")
+        let txt = window.prompt("Type the text you want KeyboardSoundPlayer to say")
+        if (txt === "") {
+            text(e)
+            return
+        }
         AddKey(key.current.value, txt)
         key.current.value = ""
     }
@@ -62,9 +77,13 @@ function App() {
                 <input type="text" ref={key} placeholder="Type a key"/>
                 <br/>
                 <br/>
-                <button onClick={yt}>YouTube URL</button>
-                <button onClick={file}>MP3 File</button>
-                <button onClick={text}>Text</button>
+                <button className="blue" onClick={yt}>YouTube URL</button>
+                <button className="blue" onClick={file}>MP3 File</button>
+                <button className="blue" onClick={text}>Text</button>
+                <br/>
+                <br/>
+                <button id="start" onClick={startCallback}>Start</button>
+                <button id="stop" onClick={stopCallback}>Stop</button>
             </div>
         </div>
     )
