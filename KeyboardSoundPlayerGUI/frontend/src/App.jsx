@@ -38,12 +38,18 @@ function App() {
             return
         }
         let url = window.prompt("Type a youtube url")
+        if (url === null) {
+            return
+        }
+        if (url === "") {
+            yt(e)
+            return
+        }
         if (!url.startsWith("https://")) {
             url = "https://" + url
         }
         if (!url.startsWith("https://youtube.com")) {
             alert("Invalid URL")
-            key.current.value = ""
             return
         }
         AddKey(key.current.value, url)
@@ -58,7 +64,6 @@ function App() {
 
         async function func() {
             let file = await FilePrompt()
-            console.log(file)
             if (file === "") {
                 return
             }
@@ -75,12 +80,15 @@ function App() {
             return
         }
         let txt = window.prompt("Type the text you want KeyboardSoundPlayer to say")
-        if (txt === "") {
-            text(e)
+        if (txt === null) {
             return
         }
-        AddKey(key.current.value, txt)
-        key.current.value = ""
+        if (txt === "") {
+            text(e)
+        } else {
+            AddKey(key.current.value, txt)
+            key.current.value = ""
+        }
     }
 
     return (

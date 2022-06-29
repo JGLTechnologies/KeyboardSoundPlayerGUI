@@ -62,6 +62,29 @@ function Config() {
         port.current.value = currentConfig.port !== 0 ? currentConfig.port : 6238
     }
 
+    function resetConfig(e) {
+        e.preventDefault()
+        channels.current.value = 8
+        gender.current.value = "male"
+        rate.current.value = 170
+        exit.current.value = "esc"
+        port.current.value = 6238
+        SetConfig({
+            channels: 8,
+            gender: "male",
+            rate: 170,
+            exit_key: "esc",
+            port: 6238
+        })
+        changeConfig({
+            channels: 8,
+            gender: "male",
+            rate: 170,
+            exit_key: "esc",
+            port: 6238
+        })
+    }
+
     return (
         <div>
             <Head name="Config"/>
@@ -86,7 +109,8 @@ function Config() {
                     <br/>
                     <br/>
                     <button className="blue" onClick={saveConfig}>Save</button>
-                    <button className="blue" onClick={undoConfig}>undo</button>
+                    <button className="blue" onClick={resetConfig}>Reset</button>
+                    <button className="blue" onClick={undoConfig}>Undo</button>
                 </form>
             </div>
         </div>
