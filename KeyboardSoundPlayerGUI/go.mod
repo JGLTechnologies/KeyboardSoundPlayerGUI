@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/JGLTechnologies/SimpleFiles v1.0.2
+	github.com/alexflint/go-filemutex v1.2.0
 	github.com/imroc/req/v2 v2.1.0
 	github.com/wailsapp/wails/v2 v2.0.0-beta.37
 )

@@ -5,6 +5,7 @@ import (
 	"embed"
 	"fmt"
 	"github.com/JGLTechnologies/SimpleFiles"
+	"github.com/alexflint/go-filemutex"
 	"github.com/imroc/req/v2"
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -130,8 +131,15 @@ func (c *Config) GetConfig() Config {
 }
 
 func main() {
+	m, lockErr := filemutex.New("gui_lock")
+	if lockErr != nil {
+		log.Fatalln("Lock file could not be created")
+	}
+	if m.TryLock() != nil {
+		return
+	}
+	defer m.Unlock()
 	app := &App{}
-
 	err := wails.Run(&options.App{
 		Title:         "KeyboardSoundPlayer",
 		Width:         900,
