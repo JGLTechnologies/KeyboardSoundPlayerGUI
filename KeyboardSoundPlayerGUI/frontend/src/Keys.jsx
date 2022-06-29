@@ -57,7 +57,7 @@ function Keys() {
     } else {
         return (
             <div>
-                <Head name="Key Configuration"/>
+                <Head name="Key Maps"/>
                 <p className="upper-left">No keys have been configured.</p>
             </div>
         )
