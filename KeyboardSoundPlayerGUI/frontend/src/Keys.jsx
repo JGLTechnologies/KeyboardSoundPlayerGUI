@@ -35,7 +35,7 @@ function Keys() {
         return (
             <div>
                 <Head name="Key Mapping"/>
-                <ul>
+                <ul className="keys">
                     {
                         list.map(key => (
                             <li key={key} className="upper-left">{key.toUpperCase()} -> {keys[key]}
