@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useReducer, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {GetKeys, RemoveMP3, SetKeys} from "../wailsjs/go/main/App";
 import "./assets/App.css";
 import Head from "./Head";

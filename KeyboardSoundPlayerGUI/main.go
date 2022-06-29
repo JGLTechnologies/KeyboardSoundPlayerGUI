@@ -5,16 +5,20 @@ import (
 	"embed"
 	"fmt"
 	"github.com/JGLTechnologies/SimpleFiles"
+	"github.com/imroc/req/v2"
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"log"
 	"os"
+	"os/exec"
 	"strings"
+	"time"
 )
 
 //go:embed frontend/dist
 var assets embed.FS
+var client = req.C()
 
 type App struct {
 	ctx context.Context
@@ -84,8 +88,22 @@ func (a *App) GetPort() string {
 	return "6238"
 }
 
+func (a *App) StartFile() {
+	exec.Command("./main.exe").Run()
+}
+
+func (a *App) IsOnline() bool {
+	_, err := client.R().Get("http://localhost:" + a.GetPort())
+	return err == nil
+}
+
+func (a *App) RequestPath(endpoint string) {
+	client.R().Get("http://localhost:" + a.GetPort() + endpoint)
+}
+
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+	client.SetTimeout(time.Second / 2)
 }
 
 type Config struct {

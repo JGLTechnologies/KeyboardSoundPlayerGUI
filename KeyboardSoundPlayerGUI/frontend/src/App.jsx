@@ -1,16 +1,30 @@
 import Head from "./Head";
 import {useRef} from "react";
-import {AddKey, FilePrompt, GetPort} from "../wailsjs/go/main/App";
+import {AddKey, FilePrompt, IsOnline, RequestPath, StartFile} from "../wailsjs/go/main/App";
 import "./assets/App.css"
 
 function startCallback() {
-    window.open("file:///main.exe")
+    async function func() {
+        if (!await IsOnline()) {
+            await StartFile()
+        } else {
+            alert("KeyboardSoundPlayer is already started")
+        }
+    }
+
+    func()
 }
 
 function stopCallback() {
+
     async function func() {
-        fetch(`http://localhost:${await GetPort()}/stop`)
+        if (await IsOnline()) {
+            await RequestPath("/stop")
+        } else {
+            alert("KeyboardSoundPlayer is not started")
+        }
     }
+
     func()
 }
 
@@ -41,6 +55,7 @@ function App() {
             alert("Please enter a key")
             return
         }
+
         async function func() {
             let file = await FilePrompt()
             console.log(file)
@@ -50,6 +65,7 @@ function App() {
             AddKey(key.current.value, file)
             key.current.value = ""
         }
+
         func()
     }
 

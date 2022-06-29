@@ -25,6 +25,7 @@ function Config() {
             })
             changeConfig(currentConfig)
         }
+
         func()
     }, [])
 
