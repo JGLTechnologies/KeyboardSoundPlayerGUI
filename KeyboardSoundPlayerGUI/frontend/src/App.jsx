@@ -48,7 +48,7 @@ function App() {
         if (!url.startsWith("https://")) {
             url = "https://" + url
         }
-        if (!url.includes("https://youtube.com")) {
+        if (!url.includes("youtube.com")) {
             alert("Invalid URL")
             return
         }
