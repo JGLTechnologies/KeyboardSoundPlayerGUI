@@ -7,7 +7,7 @@ function Head(props) {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container px-5">
-                <span className="navbar-brand">{props.name}</span>
+                <Link className="navbar-brand" to="/">{props.name}</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
