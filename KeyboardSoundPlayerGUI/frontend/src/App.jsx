@@ -1,41 +1,32 @@
 import Head from "./Head";
-import {useRef} from "react";
+import {useRef, useState} from "react";
 import {AddKey, FilePrompt, IsOnline, RequestPath, StartFile} from "../wailsjs/go/main/App";
 import "./assets/App.css"
-import semaphore from "semaphore";
 
-const sem = semaphore(1)
+function App() {
+    let key = useRef(null)
+    let [startDisabled, setStartDisabled] = useState(false)
+    let [stopDisabled, setStopDisabled] = useState(false)
 
-function startCallback() {
-    if (sem.current > 0) {
-        return
-    }
-    sem.take(async function func() {
+    async function startCallback() {
+        setStartDisabled(true)
         if (!await IsOnline()) {
             await StartFile()
         } else {
             alert("KeyboardSoundPlayer is already started")
         }
-        sem.leave()
-    })
-}
-
-function stopCallback() {
-    if (sem.current > 0) {
-        return
+        setStartDisabled(false)
     }
-    sem.take(async function func() {
+
+    async function stopCallback() {
+        setStopDisabled(true)
         if (await IsOnline()) {
             await RequestPath("/stop")
         } else {
             alert("KeyboardSoundPlayer is not started")
         }
-        sem.leave()
-    })
-}
-
-function App() {
-    let key = useRef(null)
+        setStopDisabled(false)
+    }
 
     async function yt(e) {
         if (key.current.value === "") {
@@ -107,8 +98,8 @@ function App() {
                 <button className="blue" onClick={text}>Text</button>
                 <br/>
                 <br/>
-                <button id="start" onClick={startCallback}>Start</button>
-                <button id="stop" onClick={stopCallback}>Stop</button>
+                <button id="start" disabled={startDisabled} onClick={startCallback}>Start</button>
+                <button id="stop" disabled={stopDisabled} onClick={stopCallback}>Stop</button>
             </div>
         </div>
     )
