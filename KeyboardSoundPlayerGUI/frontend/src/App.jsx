@@ -2,37 +2,42 @@ import Head from "./Head";
 import {useRef} from "react";
 import {AddKey, FilePrompt, IsOnline, RequestPath, StartFile} from "../wailsjs/go/main/App";
 import "./assets/App.css"
+import semaphore from "semaphore";
+
+const sem = semaphore(1)
 
 function startCallback() {
-    async function func() {
+    if (sem.current > 0) {
+        return
+    }
+    sem.take(async function func() {
         if (!await IsOnline()) {
             await StartFile()
         } else {
             alert("KeyboardSoundPlayer is already started")
         }
-    }
-
-    func()
+        sem.leave()
+    })
 }
 
 function stopCallback() {
-
-    async function func() {
+    if (sem.current > 0) {
+        return
+    }
+    sem.take(async function func() {
         if (await IsOnline()) {
             await RequestPath("/stop")
         } else {
             alert("KeyboardSoundPlayer is not started")
         }
-    }
-
-    func()
+        sem.leave()
+    })
 }
-
 
 function App() {
     let key = useRef(null)
 
-    function yt(e) {
+    async function yt(e) {
         if (key.current.value === "") {
             alert("Please enter a key")
             return
@@ -42,7 +47,7 @@ function App() {
             return
         }
         if (url === "") {
-            yt(e)
+            await yt(e)
             return
         }
         if (!url.startsWith("https://")) {
@@ -52,29 +57,25 @@ function App() {
             alert("Invalid URL")
             return
         }
-        AddKey(key.current.value, url)
+        await AddKey(key.current.value, url)
         key.current.value = ""
     }
 
-    function file(e) {
+    async function file(e) {
         if (key.current.value === "") {
             alert("Please enter a key")
             return
         }
 
-        async function func() {
-            let file = await FilePrompt()
-            if (file === "") {
-                return
-            }
-            AddKey(key.current.value, file)
-            key.current.value = ""
+        let file = await FilePrompt()
+        if (file === "") {
+            return
         }
-
-        func()
+        await AddKey(key.current.value, file)
+        key.current.value = ""
     }
 
-    function text(e) {
+    async function text(e) {
         if (key.current.value === "") {
             alert("Please enter a key")
             return
@@ -84,9 +85,9 @@ function App() {
             return
         }
         if (txt === "") {
-            text(e)
+            await text(e)
         } else {
-            AddKey(key.current.value, txt)
+            await AddKey(key.current.value, txt)
             key.current.value = ""
         }
     }
