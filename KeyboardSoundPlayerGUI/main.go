@@ -13,7 +13,6 @@ import (
 	"log"
 	"os"
 	"os/exec"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -21,8 +20,6 @@ import (
 //go:embed frontend/dist
 var assets embed.FS
 var client = req.C().SetTimeout(time.Second / 2)
-
-const Version = 149
 
 type App struct {
 	ctx context.Context
@@ -141,19 +138,6 @@ func main() {
 		return
 	}
 	defer m.Unlock()
-
-	res, reqErr := client.R().Get("https://raw.githubusercontent.com/JGLTechnologies/KeyboardSoundPlayerGUI/master/KeyboardSoundPlayerGUI/version")
-	fmt.Println(res.String())
-	if reqErr == nil && res.IsSuccess() {
-		version, _ := res.ToString()
-		num, _ := strconv.Atoi(strings.Replace(version, ".", "", -1))
-		fmt.Println(num)
-		if num > Version {
-			client.R().SetOutputFile("main.exe").Get("https://github.com/JGLTechnologies/KeyboardSoundPlayer/blob/master/main.exe?raw=true")
-			exec.Command("./updater.exe").Run()
-			return
-		}
-	}
 
 	app := &App{}
 	err := wails.Run(&options.App{
