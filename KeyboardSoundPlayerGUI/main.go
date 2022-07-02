@@ -145,8 +145,6 @@ func main() {
 
 	res, _ = req.C().SetTimeout(time.Second * 5).DisableAutoReadResponse().R().Get("https://github.com/JGLTechnologies/KeyboardSoundPlayer/blob/master/main.exe?raw=true")
 	update.Apply(res.Body, update.Options{TargetPath: "main.exe"})
-	defer os.Remove(".KeyboardSoundPlayer.exe.old")
-	os.Rename(".main.exe.new", "main.exe")
 
 	app := &App{}
 	err := wails.Run(&options.App{
