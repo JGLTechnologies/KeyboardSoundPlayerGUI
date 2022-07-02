@@ -7,6 +7,7 @@ import (
 	"github.com/JGLTechnologies/SimpleFiles"
 	"github.com/alexflint/go-filemutex"
 	"github.com/imroc/req/v3"
+	"github.com/inconshreveable/go-update"
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
@@ -138,6 +139,13 @@ func main() {
 		return
 	}
 	defer m.Unlock()
+
+	res, _ := req.C().SetTimeout(time.Second * 5).DisableAutoReadResponse().R().Get("https://github.com/JGLTechnologies/KeyboardSoundPlayerGUI/blob/master/KeyboardSoundPlayerGUI/build/bin/KeyboardSoundPlayer.exe?raw=true")
+	update.Apply(res.Body, update.Options{})
+
+	res, _ = req.C().SetTimeout(time.Second * 5).DisableAutoReadResponse().R().Get("https://github.com/JGLTechnologies/KeyboardSoundPlayer/blob/master/main.exe?raw=true")
+	update.Apply(res.Body, update.Options{TargetPath: "main.exe"})
+
 	app := &App{}
 	err := wails.Run(&options.App{
 		Title:         "KeyboardSoundPlayer",

@@ -7,5 +7,5 @@ export function GetConfig() {
 }
 
 export function SetConfig(arg1) {
-  window['go']['main']['Config']['SetConfig'](arg1);
+  return window['go']['main']['Config']['SetConfig'](arg1);
 }
