@@ -6,7 +6,6 @@ require (
 	github.com/JGLTechnologies/SimpleFiles v1.0.2
 	github.com/alexflint/go-filemutex v1.2.0
 	github.com/imroc/req/v3 v3.13.2
-	github.com/inconshreveable/go-update v0.0.0-20160112193335-8152e7eb6ccf
 	github.com/wailsapp/wails/v2 v2.0.0-beta.38
 )
 
