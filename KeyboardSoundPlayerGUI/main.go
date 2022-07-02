@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/JGLTechnologies/SimpleFiles"
 	"github.com/alexflint/go-filemutex"
-	"github.com/imroc/req/v2"
+	"github.com/imroc/req/v3"
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
@@ -19,7 +19,7 @@ import (
 
 //go:embed frontend/dist
 var assets embed.FS
-var client = req.C()
+var client = req.C().SetTimeout(time.Second / 2)
 
 type App struct {
 	ctx context.Context
@@ -104,7 +104,6 @@ func (a *App) RequestPath(endpoint string) {
 
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
-	client.SetTimeout(time.Second / 2)
 }
 
 type Config struct {
