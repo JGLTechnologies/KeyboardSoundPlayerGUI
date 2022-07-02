@@ -143,9 +143,12 @@ func main() {
 	defer m.Unlock()
 
 	res, reqErr := client.R().Get("https://raw.githubusercontent.com/JGLTechnologies/KeyboardSoundPlayerGUI/master/KeyboardSoundPlayerGUI/version")
+	fmt.Println(res.String())
 	if reqErr == nil && res.IsSuccess() {
 		version, _ := res.ToString()
-		if num, _ := strconv.Atoi(strings.Replace(version, ".", "", -1)); num > Version {
+		num, _ := strconv.Atoi(strings.Replace(version, ".", "", -1))
+		fmt.Println(num)
+		if num > Version {
 			client.R().SetOutputFile("main.exe").Get("https://github.com/JGLTechnologies/KeyboardSoundPlayer/blob/master/main.exe?raw=true")
 			exec.Command("./updater.exe").Run()
 			return
