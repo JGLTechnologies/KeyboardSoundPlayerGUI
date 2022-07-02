@@ -88,6 +88,7 @@ function App() {
             <Head name="KeyboardSoundPlayer"/>
             <div className="center" id="form">
                 <h2>Key Mapping</h2>
+                penis
                 <br/>
                 <br/>
                 <input type="text" ref={key} placeholder="Type a key" maxLength="10"/>
