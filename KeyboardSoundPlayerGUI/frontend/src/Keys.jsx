@@ -2,6 +2,16 @@ import {useCallback, useEffect, useState} from "react";
 import {GetKeys, RemoveMP3, SetKeys} from "../wailsjs/go/main/App";
 import "./assets/App.css";
 import Head from "./Head";
+import Arrow from "@mui/icons-material/ArrowForward"
+import Delete from "@mui/icons-material/Delete"
+import {Button, Box} from "@mui/material";
+import styled from 'styled-components'
+
+const StyledButton = styled(Button)`
+    &:hover {
+        background: none;
+    }
+`
 
 function Keys() {
     let [keys, changeKeys] = useState(null)
@@ -35,23 +45,26 @@ function Keys() {
         return (
             <div>
                 <Head name="Key Maps"/>
-                <ul className="keys">
+                <Box sx={{width: "800px", position: "relative", top: "15px", left: "15px", paddingRight: "20px", paddingBottom: "20px"}}>
+                <ul style={{wordBreak: "break-all"}}>
                     {
                         list.map(key => (
-                            <li key={key} className="upper-left">{key.toUpperCase()} -&gt; {keys[key]}
-                                <button className="delete" onClick={() => {
+                            <li key={key} style={{marginLeft: "15px"}} >
+                                <StyledButton onClick={() => {
                                     let currentKeys = keys.valueOf()
                                     delete currentKeys[key]
                                     changeKeys(currentKeys)
                                     SetKeys(keys)
                                     RemoveMP3(key)
                                     forceUpdate()
-                                }}>X
-                                </button>
+                                }}><Delete fontSize="small" color="error"/>
+                                </StyledButton>
+                                {key.toUpperCase()} <Arrow style={{marginLeft: "10px", marginRight: "10px"}}/> {keys[key]}
                             </li>
                         ))
                     }
                 </ul>
+                </Box>
             </div>
         )
     } else {

@@ -6,20 +6,16 @@ export function AddKey(arg1, arg2) {
   return window['go']['main']['App']['AddKey'](arg1, arg2);
 }
 
+export function GetPort() {
+  return window['go']['main']['App']['GetPort']();
+}
+
 export function IsOnline() {
   return window['go']['main']['App']['IsOnline']();
 }
 
 export function RemoveMP3(arg1) {
   return window['go']['main']['App']['RemoveMP3'](arg1);
-}
-
-export function RequestPath(arg1) {
-  return window['go']['main']['App']['RequestPath'](arg1);
-}
-
-export function SetKeys(arg1) {
-  return window['go']['main']['App']['SetKeys'](arg1);
 }
 
 export function FilePrompt() {
@@ -30,8 +26,12 @@ export function GetKeys() {
   return window['go']['main']['App']['GetKeys']();
 }
 
-export function GetPort() {
-  return window['go']['main']['App']['GetPort']();
+export function RequestPath(arg1) {
+  return window['go']['main']['App']['RequestPath'](arg1);
+}
+
+export function SetKeys(arg1) {
+  return window['go']['main']['App']['SetKeys'](arg1);
 }
 
 export function StartFile() {
