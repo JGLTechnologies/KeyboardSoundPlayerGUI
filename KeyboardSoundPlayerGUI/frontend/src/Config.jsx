@@ -109,7 +109,7 @@ function Config() {
         setPortError(false)
         setRateError(false)
         setExitError(false)
-        setChannels(false)
+        setChannelError(false)
     }
 
     async function resetConfig(e) {
@@ -134,6 +134,10 @@ function Config() {
             exit_key: "esc",
             port: 6238
         })
+        setPortError(false)
+        setRateError(false)
+        setExitError(false)
+        setChannelError(false)
     }
 
     return (
