@@ -28,20 +28,22 @@ function Config() {
     useEffect(() => {
         async function func() {
             let currentConfig = await GetConfig()
-            setGender("" ? currentConfig.gender : "male")
+            setGender(currentConfig.gender !== "" ? currentConfig.gender : "male")
             setChannels(currentConfig.channels !== 0 ? currentConfig.channels : 8)
             setRate(currentConfig.rate !== 0 ? currentConfig.rate : 170)
             setExit(currentConfig.exit_key !== "" ? currentConfig.exit_key : "esc")
             setPort(currentConfig.port !== 0 ? currentConfig.port : 6238)
-
-            await SetConfig({
-                channels: parseInt(channels),
-                gender: gender,
-                rate: parseInt(rate),
-                exit_key: exit,
-                port: parseInt(port)
-            })
             changeConfig(currentConfig)
+
+            if (currentConfig.port === 0 && currentConfig.gender === "" && currentConfig.channels === 0 && currentConfig.rate === 0 && currentConfig.exit_key === "") {
+                await SetConfig({
+                    channels: 8,
+                    gender: "male",
+                    rate: 170,
+                    exit_key: "",
+                    port: 6238
+                })
+            }
         }
 
         func()
@@ -80,7 +82,6 @@ function Config() {
             return
         }
         e.preventDefault()
-        await restart()
         SetConfig({
             channels: Math.trunc(parseInt(channels)),
             gender: gender,
@@ -95,13 +96,14 @@ function Config() {
             exit_key: exit,
             port: Math.trunc(parseInt(port))
         })
+        await restart()
     }
 
     function undoConfig(e) {
         e.preventDefault()
         let currentConfig = config
         setChannels(currentConfig.channels !== 0 ? currentConfig.channels : 8)
-        setGender("" ? currentConfig.gender : "male")
+        setGender(currentConfig.gender !== "" ? currentConfig.gender : "male")
         setRate(currentConfig.rate !== 0 ? currentConfig.rate : 170)
         setExit(currentConfig.exit_key !== "" ? currentConfig.exit_key : "esc")
         setPort(currentConfig.port !== 0 ? currentConfig.port : 6238)
@@ -114,7 +116,6 @@ function Config() {
 
     async function resetConfig(e) {
         e.preventDefault()
-        await restart()
         setChannels(8)
         setGender("male")
         setRate(170)
@@ -138,6 +139,7 @@ function Config() {
         setRateError(false)
         setExitError(false)
         setChannelError(false)
+        await restart()
     }
 
     return (
