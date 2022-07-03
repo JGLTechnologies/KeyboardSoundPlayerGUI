@@ -22,13 +22,15 @@ body {
     overflow-x: hidden;
 }
 
+#config {
+    position: relative;
+    top: 75px;
+    text-align: center;
+}
+
 #form {
     position: relative;
     top: 150px;
-}
-
-#form input {
-    padding: 5px;
 }
 
 #start {
@@ -44,6 +46,16 @@ body {
 }
 
 #form button {
+    margin-right: 5px;
+    margin-left: 5px;
+    padding: 7px;
+    border-radius: 5px;
+    width: 115px;
+    height: 40px;
+    border-color: currentColor;
+}
+
+#config button {
     margin-right: 5px;
     margin-left: 5px;
     padding: 7px;

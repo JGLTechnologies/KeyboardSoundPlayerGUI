@@ -10,16 +10,20 @@ export function GetKeys() {
   return window['go']['main']['App']['GetKeys']();
 }
 
-export function GetPort() {
-  return window['go']['main']['App']['GetPort']();
-}
-
 export function RequestPath(arg1) {
   return window['go']['main']['App']['RequestPath'](arg1);
 }
 
+export function StartFile() {
+  return window['go']['main']['App']['StartFile']();
+}
+
 export function FilePrompt() {
   return window['go']['main']['App']['FilePrompt']();
+}
+
+export function GetPort() {
+  return window['go']['main']['App']['GetPort']();
 }
 
 export function IsOnline() {
@@ -32,8 +36,4 @@ export function RemoveMP3(arg1) {
 
 export function SetKeys(arg1) {
   return window['go']['main']['App']['SetKeys'](arg1);
-}
-
-export function StartFile() {
-  return window['go']['main']['App']['StartFile']();
 }

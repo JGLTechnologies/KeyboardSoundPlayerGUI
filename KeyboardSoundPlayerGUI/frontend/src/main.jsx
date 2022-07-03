@@ -12,7 +12,6 @@ createRoot(document.getElementById('root')).render(
                 <Route path="/" exact element={<App/>}/>
                 <Route path="/keys" exact element={<Keys/>}/>
                 <Route path="/config" exact element={<Config/>}/>
-
             </Routes>
         </MemoryRouter>
     </React.StrictMode>

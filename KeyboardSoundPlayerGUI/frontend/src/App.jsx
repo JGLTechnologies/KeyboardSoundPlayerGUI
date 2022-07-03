@@ -1,17 +1,19 @@
 import Head from "./Head";
-import {useRef, useState} from "react";
+import {useState} from "react";
 import {AddKey, FilePrompt, IsOnline, RequestPath, StartFile} from "../wailsjs/go/main/App";
 import "./assets/App.css"
+import {TextField} from "@mui/material";
 
 function App() {
-    let key = useRef(null)
+    let [key, setKey] = useState("")
     let [startDisabled, setStartDisabled] = useState(false)
     let [stopDisabled, setStopDisabled] = useState(false)
+    let [error, setError] = useState(false)
 
     async function startCallback() {
         setStartDisabled(true)
         if (!await IsOnline()) {
-            await StartFile()
+            StartFile()
         } else {
             alert("KeyboardSoundPlayer is already started")
         }
@@ -28,9 +30,17 @@ function App() {
         setStopDisabled(false)
     }
 
+    function check() {
+        if (key === "") {
+            setError(true)
+            return false
+        }
+        setError(false)
+        return true
+    }
+
     async function yt(e) {
-        if (key.current.value === "") {
-            alert("Please enter a key")
+        if (!check()) {
             return
         }
         let url = window.prompt("Type a youtube url")
@@ -48,27 +58,24 @@ function App() {
             alert("Invalid URL")
             return
         }
-        await AddKey(key.current.value, url)
-        key.current.value = ""
+        await AddKey(key, url)
+        setKey("")
     }
 
     async function file(e) {
-        if (key.current.value === "") {
-            alert("Please enter a key")
+        if (!check()) {
             return
         }
-
         let file = await FilePrompt()
         if (file === "") {
             return
         }
-        await AddKey(key.current.value, file)
-        key.current.value = ""
+        await AddKey(key, file)
+        setKey("")
     }
 
     async function text(e) {
-        if (key.current.value === "") {
-            alert("Please enter a key")
+        if (!check()) {
             return
         }
         let txt = window.prompt("Type some text or a function name")
@@ -78,8 +85,8 @@ function App() {
         if (txt === "") {
             await text(e)
         } else {
-            await AddKey(key.current.value, txt)
-            key.current.value = ""
+            await AddKey(key, txt)
+            setKey("")
         }
     }
 
@@ -90,7 +97,9 @@ function App() {
                 <h2>Key Mapping</h2>
                 <br/>
                 <br/>
-                <input type="text" ref={key} placeholder="Type a key" maxLength="10"/>
+                <TextField size="small" required error={error} type="text" value={key} onChange={(e) => {
+                    setKey(e.target.value)
+                }} placeholder="Type a key" InputProps={{inputProps: {maxLength: 10}}} label="Key" />
                 <br/>
                 <br/>
                 <button className="blue" onClick={yt}>YouTube URL</button>
