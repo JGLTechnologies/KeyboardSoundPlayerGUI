@@ -104,6 +104,7 @@ function Config() {
         setRate(currentConfig.rate !== 0 ? currentConfig.rate : 170)
         setExit(currentConfig.exit_key !== "" ? currentConfig.exit_key : "esc")
         setPort(currentConfig.port !== 0 ? currentConfig.port : 6238)
+        check()
     }
 
     async function resetConfig(e) {
