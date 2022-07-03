@@ -5,7 +5,7 @@ import {FormControl, MenuItem, Stack, TextField} from "@mui/material"
 import {IsOnline, RequestPath, StartFile} from "../wailsjs/go/main/App";
 
 async function restart() {
-    if (!await IsOnline()) {
+    if (await IsOnline()) {
         await RequestPath("/stop")
         setTimeout(StartFile, 500)
     }
