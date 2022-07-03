@@ -22,6 +22,7 @@ function Config() {
     let [rateError, setRateError] = useState(false)
     let [exitError, setExitError] = useState(false)
     let [portError, setPortError] = useState(false)
+
     let [config, changeConfig] = useState({})
 
     useEffect(() => {
@@ -104,7 +105,11 @@ function Config() {
         setRate(currentConfig.rate !== 0 ? currentConfig.rate : 170)
         setExit(currentConfig.exit_key !== "" ? currentConfig.exit_key : "esc")
         setPort(currentConfig.port !== 0 ? currentConfig.port : 6238)
-        check()
+
+        setPortError(false)
+        setRateError(false)
+        setExitError(false)
+        setChannels(false)
     }
 
     async function resetConfig(e) {
