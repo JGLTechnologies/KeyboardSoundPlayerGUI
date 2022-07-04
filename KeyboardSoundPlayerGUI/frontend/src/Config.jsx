@@ -112,16 +112,22 @@ function Config() {
 
     async function undoConfig(e) {
         e.preventDefault()
-        let currentConfig = config
-        if (JSON.stringify(config) === JSON.stringify(await GetConfig())) {
+        let currentConfig = {
+            channels: channels,
+            gender: gender,
+            rate: rate,
+            exit_key: exit,
+            port: port
+        }
+        if (JSON.stringify(config) === JSON.stringify(currentConfig)) {
             setSnackBar("error", "There are no changes to undo")
             return
         }
-        setChannels(currentConfig.channels !== 0 ? currentConfig.channels : 8)
-        setGender(currentConfig.gender !== "" ? currentConfig.gender : "male")
-        setRate(currentConfig.rate !== 0 ? currentConfig.rate : 170)
-        setExit(currentConfig.exit_key !== "" ? currentConfig.exit_key : "esc")
-        setPort(currentConfig.port !== 0 ? currentConfig.port : 6238)
+        setChannels(config.channels !== 0 ? config.channels : 8)
+        setGender(config.gender !== "" ? config.gender : "male")
+        setRate(config.rate !== 0 ? config.rate : 170)
+        setExit(config.exit_key !== "" ? config.exit_key : "esc")
+        setPort(config.port !== 0 ? config.port : 6238)
 
         setPortError(false)
         setRateError(false)
