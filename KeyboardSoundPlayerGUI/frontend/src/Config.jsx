@@ -113,12 +113,13 @@ function Config() {
     async function undoConfig(e) {
         e.preventDefault()
         let currentConfig = {
-            channels: channels,
+            channels: Math.trunc(parseInt(channels)),
             gender: gender,
-            rate: rate,
+            rate: Math.trunc(parseInt(rate)),
             exit_key: exit,
-            port: port
+            port: Math.trunc(parseInt(port))
         }
+        console.log(config,currentConfig)
         if (JSON.stringify(config) === JSON.stringify(currentConfig)) {
             setSnackBar("error", "There are no changes to undo")
             return
