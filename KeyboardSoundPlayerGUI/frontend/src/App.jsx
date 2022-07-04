@@ -126,7 +126,7 @@ function App() {
     }
 
     function handleClose(_, reason) {
-        if (reason === "clickaway") {
+        if (reason === "clickaway" || reason === "escapeKeyDown") {
             return;
         }
         setOpen(false);
@@ -159,76 +159,47 @@ function App() {
                 <button id="start" disabled={startDisabled} onClick={startCallback}>Start</button>
                 <button id="stop" disabled={stopDisabled} onClick={stopCallback}>Stop</button>
             </div>
-            <KeyTextDialog cancel={() => {
-                setYTDialog({
-                    open: false,
-                    dialog: "",
-                    keyText: "",
-                    err: false,
-                    helper: ""
-                })
-                setKey("")
-            }} onClick={yt} dialog={ytDialog.dialog} dialogOpen={ytDialog.open}
-                           setDialogOpen={(open) => {
-                               setYTDialog({...ytDialog, open: open})
-                           }} dialogErr={ytDialog.err} dialogHelperTxt={ytDialog.helper} keyText={ytDialog.keyText}
-                           setKeyText={(text) => {
-                               setYTDialog({...ytDialog, keyText: text})
-                           }}/>
-
-            <KeyTextDialog cancel={() => {
-                setTxtDialog({
-                    open: false,
-                    dialog: "",
-                    keyText: "",
-                    err: false,
-                    helper: ""
-                })
-                setKey("")
-            }} onClick={text} dialog={txtDialog.dialog} dialogOpen={txtDialog.open}
-                           setDialogOpen={(open) => {
-                               setTxtDialog({...txtDialog, open: open})
-                           }} dialogErr={txtDialog.err} dialogHelperTxt={txtDialog.helper} keyText={txtDialog.keyText}
-                           setKeyText={(text) => {
-                               setTxtDialog({...txtDialog, keyText: text})
-                           }}/>
+            <KeyTextDialog onClick={text} dialogState={txtDialog} setDialog={setTxtDialog}/>
+            <KeyTextDialog onClick={yt} dialogState={ytDialog} setDialog={setYTDialog}/>
         </div>
     )
 }
 
 function KeyTextDialog({
-                           dialogOpen,
-                           setDialogOpen,
-                           dialogErr,
-                           dialogHelperTxt,
-                           keyText,
-                           setKeyText,
-                           dialog,
+                           setDialog,
+                           dialogState,
                            onClick,
-                           cancel
                        }) {
     return (
         <Dialog
-            open={dialogOpen}
+            open={dialogState.open}
             onClose={(_, reason) => {
-                if (reason === "clickaway") {
+                if (reason === "backdropClick") {
                     return
                 }
-                setDialogOpen(false)
+                setDialog({...dialogState, open: false, keyText: ""})
             }}
         >
             <DialogTitle fontSize="small">
-                {dialog}
+                {dialogState.dialog}
             </DialogTitle>
             <DialogContent>
-                <TextField variant="standard" error={dialogErr} helperText={dialogHelperTxt} value={keyText}
+                <TextField variant="standard" error={dialogState.err} helperText={dialogState.helper} value={dialogState.keyText}
                            size="small" required
                            type="standard" onChange={(e) => {
-                    setKeyText(e.target.value)
+                    setDialog({...dialogState, keyText: e.target.value})
                 }}/>
             </DialogContent>
             <DialogActions>
-                <Button onClick={cancel}>Cancel</Button>
+                <Button onClick={() => {
+                    setDialog({
+                        open: false,
+                        dialog: "",
+                        keyText: "",
+                        err: false,
+                        helper: ""
+                    })
+                }}>Cancel</Button>
                 <Button onClick={onClick}>
                     Ok
                 </Button>

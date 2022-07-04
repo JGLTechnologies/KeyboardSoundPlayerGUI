@@ -156,9 +156,10 @@ function Config() {
     }
 
     function handleClose(_, reason) {
-        if (reason !== "clickaway") {
-            setOpen(false)
+        if (reason === "clickaway" || reason === "escapeKeyDown") {
+            return
         }
+        setOpen(false)
     }
 
     return (
