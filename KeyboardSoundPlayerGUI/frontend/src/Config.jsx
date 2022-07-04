@@ -110,9 +110,13 @@ function Config() {
         await restart()
     }
 
-    function undoConfig(e) {
+    async function undoConfig(e) {
         e.preventDefault()
         let currentConfig = config
+        if (JSON.stringify(config) === JSON.stringify(await GetConfig())) {
+            setSnackBar("error", "There are no changes to undo")
+            return
+        }
         setChannels(currentConfig.channels !== 0 ? currentConfig.channels : 8)
         setGender(currentConfig.gender !== "" ? currentConfig.gender : "male")
         setRate(currentConfig.rate !== 0 ? currentConfig.rate : 170)
