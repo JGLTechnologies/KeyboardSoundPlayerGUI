@@ -1,7 +1,7 @@
 import Head from "./Head";
 import {useEffect, useState} from "react";
 import {GetConfig, SetConfig} from "../wailsjs/go/main/Config";
-import {FormControl, MenuItem, Stack, TextField} from "@mui/material"
+import {Alert, FormControl, MenuItem, Snackbar, Stack, TextField} from "@mui/material"
 import {IsOnline, RequestPath, StartFile} from "../wailsjs/go/main/App";
 
 async function restart() {
@@ -23,7 +23,17 @@ function Config() {
     let [exitError, setExitError] = useState(false)
     let [portError, setPortError] = useState(false)
 
+    let [open, setOpen] = useState(false)
+    let [msg, setMSG] = useState("")
+    let [level, setLevel] = useState("error")
+
     let [config, changeConfig] = useState({})
+
+    function setSnackBar(level, msg) {
+        setMSG(msg)
+        setLevel(level)
+        setOpen(true)
+    }
 
     useEffect(() => {
         async function func() {
@@ -96,6 +106,7 @@ function Config() {
             exit_key: exit,
             port: Math.trunc(parseInt(port))
         })
+        setSnackBar("success", "Your config has been saved")
         await restart()
     }
 
@@ -112,6 +123,7 @@ function Config() {
         setRateError(false)
         setExitError(false)
         setChannelError(false)
+        setSnackBar("success", "Your changes has been undone")
     }
 
     async function resetConfig(e) {
@@ -139,11 +151,23 @@ function Config() {
         setRateError(false)
         setExitError(false)
         setChannelError(false)
+        setSnackBar("success", "Your config has been reset to default")
         await restart()
+    }
+
+    function handleClose(_, reason) {
+        if (reason !== "clickaway") {
+            setOpen(false)
+        }
     }
 
     return (
         <div>
+            <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+                <Alert onClose={handleClose} variant="standard" severity={level} sx={{width: '100%'}}>
+                    {msg}
+                </Alert>
+            </Snackbar>
             <Head name="Config"/>
             <div id="config">
                 <h2>Config</h2>
