@@ -113,7 +113,7 @@ function Config() {
             exit_key: exit,
             port: Math.trunc(parseInt(port))
         })
-        setSnackBar("success", "Your config have been saved")
+        setSnackBar("success", "Your config has been saved")
         await restart()
     }
 
@@ -140,7 +140,7 @@ function Config() {
         setRateError(false)
         setExitError(false)
         setChannelError(false)
-        setSnackBar("success", "Your changes has been undone")
+        setSnackBar("success", "Your changes have been undone")
     }
 
     async function resetConfig(e) {
