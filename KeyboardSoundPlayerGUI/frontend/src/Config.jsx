@@ -50,7 +50,14 @@ function Config() {
                     channels: 8,
                     gender: "male",
                     rate: 170,
-                    exit_key: "",
+                    exit_key: "esc",
+                    port: 6238
+                })
+                changeConfig({
+                    channels: 8,
+                    gender: "male",
+                    rate: 170,
+                    exit_key: "esc",
                     port: 6238
                 })
             }
@@ -106,7 +113,7 @@ function Config() {
             exit_key: exit,
             port: Math.trunc(parseInt(port))
         })
-        setSnackBar("success", "Your config has been saved")
+        setSnackBar("success", "Your config have been saved")
         await restart()
     }
 

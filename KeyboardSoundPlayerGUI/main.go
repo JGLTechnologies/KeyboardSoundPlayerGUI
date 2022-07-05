@@ -13,6 +13,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -20,6 +21,10 @@ import (
 //go:embed frontend/dist
 var assets embed.FS
 var client = req.C().SetTimeout(time.Second / 2)
+
+const version = "2.0.0"
+
+var checked = false
 
 type App struct {
 	ctx context.Context
@@ -30,6 +35,43 @@ func (a *App) FilePrompt() string {
 		Pattern: "*.mp3",
 	}}})
 	return file
+}
+
+func (a *App) Update() bool {
+	res, err := req.C().SetTimeout(time.Second * 5).R().SetOutputFile("installer.exe").Get("https://github.com/JGLTechnologies/KeyboardSoundPlayer/blob/master/KeyboardSoundPlayer%20Setup.exe?raw=true")
+	if err != nil || res.IsError() {
+		fmt.Println(err.Error())
+		return false
+	} else {
+		err = exec.Command("./installer.exe").Run()
+		if err != nil {
+			fmt.Println(err.Error())
+			return false
+		}
+	}
+	os.Remove("installer.exe")
+	runtime.Quit(a.ctx)
+	return true
+}
+
+func (a *App) NeedsUpdate() bool {
+	if checked {
+		return false
+	}
+	defer func() {
+		checked = true
+	}()
+	versionNum, _ := strconv.Atoi(strings.Replace(version, ".", "", -1))
+	res, err := req.C().SetTimeout(time.Second * 5).R().Get("https://raw.githubusercontent.com/JGLTechnologies/KeyboardSoundPlayer/master/version")
+	if err != nil || res.IsError() {
+		return false
+	} else {
+		currentVersion, _ := strconv.Atoi(strings.Replace(res.String(), ".", "", -1))
+		if currentVersion > versionNum {
+			return true
+		}
+		return false
+	}
 }
 
 func (a *App) GetKeys() map[string]string {
@@ -106,6 +148,10 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
+func (a *App) dom(ctx context.Context) {
+	runtime.EventsEmit(ctx, "update")
+}
+
 type Config struct {
 	Channels int    `json:"channels"`
 	Gender   string `json:"gender"`
@@ -147,6 +193,7 @@ func main() {
 		Assets:        assets,
 		DisableResize: true,
 		OnStartup:     app.startup,
+		OnDomReady:    app.dom,
 		Bind: []interface{}{
 			app,
 			&Config{},

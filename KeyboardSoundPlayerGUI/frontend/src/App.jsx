@@ -1,8 +1,9 @@
 import Head from "./Head";
-import {useState} from "react";
-import {AddKey, FilePrompt, IsOnline, RequestPath, StartFile} from "../wailsjs/go/main/App";
+import {useEffect, useState} from "react";
+import {AddKey, FilePrompt, IsOnline, NeedsUpdate, RequestPath, StartFile, Update} from "../wailsjs/go/main/App";
 import "./assets/App.css"
-import {Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, TextField} from "@mui/material";
+import {Alert, Snackbar, TextField} from "@mui/material";
+import {InputDialog, MessageDialog} from "./CustomDialog";
 
 function App() {
     let [key, setKey] = useState("")
@@ -27,6 +28,25 @@ function App() {
         keyText: "",
         err: false,
         helper: ""
+    })
+
+    let [updateDialog, setUpdateDialog] = useState({
+        open: false,
+        dialog: "",
+    })
+
+    useEffect(() => {
+        async function checkUpdate() {
+            let needsUpdate = await NeedsUpdate()
+            if (needsUpdate) {
+                setUpdateDialog({
+                    ...updateDialog,
+                    open: true,
+                    dialog: "There is an update available, would you like to install it?",
+                })
+            }
+        }
+        checkUpdate()
     })
 
     function setSnackBar(level, msg) {
@@ -132,6 +152,17 @@ function App() {
         setOpen(false);
     }
 
+    async function update() {
+        setUpdateDialog({
+            open: false,
+            dialog: "",
+        })
+        setSnackBar("info", "Attempting to update KeyboardSoundPlayer...")
+        if (!await Update()) {
+            setSnackBar("error", "Something went wrong while updating")
+        }
+    }
+
     return (
         <div>
             <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
@@ -159,52 +190,13 @@ function App() {
                 <button id="start" disabled={startDisabled} onClick={startCallback}>Start</button>
                 <button id="stop" disabled={stopDisabled} onClick={stopCallback}>Stop</button>
             </div>
-            <KeyTextDialog onClick={text} dialogState={txtDialog} setDialog={setTxtDialog}/>
-            <KeyTextDialog onClick={yt} dialogState={ytDialog} setDialog={setYTDialog}/>
+            <InputDialog onClick={text} dialogState={txtDialog} setDialog={setTxtDialog} button1={"Cancel"}
+                          button2={"Ok"}/>
+            <InputDialog onClick={yt} dialogState={ytDialog} setDialog={setYTDialog} button1={"Cancel"}
+                          button2={"Ok"}/>
+            <MessageDialog onClick={update} dialogState={updateDialog} setDialog={setUpdateDialog} button1={"No"}
+                          button2={"Yes"}/>
         </div>
-    )
-}
-
-function KeyTextDialog({
-                           setDialog,
-                           dialogState,
-                           onClick,
-                       }) {
-    return (
-        <Dialog
-            open={dialogState.open}
-            onClose={(_, reason) => {
-                if (reason === "backdropClick") {
-                    return
-                }
-                setDialog({...dialogState, open: false, keyText: ""})
-            }}
-        >
-            <DialogTitle fontSize="small">
-                {dialogState.dialog}
-            </DialogTitle>
-            <DialogContent>
-                <TextField variant="standard" error={dialogState.err} helperText={dialogState.helper} value={dialogState.keyText}
-                           size="small" required
-                           type="standard" onChange={(e) => {
-                    setDialog({...dialogState, keyText: e.target.value})
-                }}/>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={() => {
-                    setDialog({
-                        open: false,
-                        dialog: "",
-                        keyText: "",
-                        err: false,
-                        helper: ""
-                    })
-                }}>Cancel</Button>
-                <Button onClick={onClick}>
-                    Ok
-                </Button>
-            </DialogActions>
-        </Dialog>
     )
 }
 
