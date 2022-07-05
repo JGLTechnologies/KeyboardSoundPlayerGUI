@@ -37,6 +37,17 @@ func (c *Config) GetConfig() Config {
 		})
 	}
 	file, _ := SimpleFiles.New("config.json")
+	if s, _ := file.ReadString(); s == "" {
+		file.WriteJSON(&Config{
+			Channels: 8,
+			Gender:   "male",
+			Rate:     170,
+			ExitKey:  "esc",
+			Port:     6238,
+			Update:   true,
+		})
+	}
 	file.ReadJSON(&config)
+
 	return config
 }

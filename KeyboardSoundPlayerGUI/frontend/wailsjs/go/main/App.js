@@ -14,32 +14,32 @@ export function FilePrompt() {
   return window['go']['main']['App']['FilePrompt']();
 }
 
-export function GetKeys() {
-  return window['go']['main']['App']['GetKeys']();
-}
-
 export function IsOnline() {
   return window['go']['main']['App']['IsOnline']();
-}
-
-export function RequestPath(arg1) {
-  return window['go']['main']['App']['RequestPath'](arg1);
-}
-
-export function SetKeys(arg1) {
-  return window['go']['main']['App']['SetKeys'](arg1);
-}
-
-export function GetPort() {
-  return window['go']['main']['App']['GetPort']();
 }
 
 export function NeedsUpdate() {
   return window['go']['main']['App']['NeedsUpdate']();
 }
 
+export function RequestPath(arg1) {
+  return window['go']['main']['App']['RequestPath'](arg1);
+}
+
+export function GetKeys() {
+  return window['go']['main']['App']['GetKeys']();
+}
+
+export function GetPort() {
+  return window['go']['main']['App']['GetPort']();
+}
+
 export function RemoveMP3(arg1) {
   return window['go']['main']['App']['RemoveMP3'](arg1);
+}
+
+export function SetKeys(arg1) {
+  return window['go']['main']['App']['SetKeys'](arg1);
 }
 
 export function Update() {

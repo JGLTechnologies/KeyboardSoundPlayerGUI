@@ -39,33 +39,13 @@ function Config() {
     useEffect(() => {
         async function func() {
             let currentConfig = await GetConfig()
-            setGender(currentConfig.gender !== "" ? currentConfig.gender : "male")
-            setChannels(currentConfig.channels !== 0 ? currentConfig.channels : 8)
-            setRate(currentConfig.rate !== 0 ? currentConfig.rate : 170)
-            setExit(currentConfig.exit_key !== "" ? currentConfig.exit_key : "esc")
-            setPort(currentConfig.port !== 0 ? currentConfig.port : 6238)
+            setGender(currentConfig.gender)
+            setChannels(currentConfig.channels)
+            setRate(currentConfig.rate)
+            setExit(currentConfig.exit_key)
+            setPort(currentConfig.port)
             setUpdate(currentConfig.update)
             changeConfig(currentConfig)
-
-            if (currentConfig.port === 0 && currentConfig.gender === "" && currentConfig.channels === 0 && currentConfig.rate === 0 && currentConfig.exit_key === "") {
-                await SetConfig({
-                    channels: 8,
-                    gender: "male",
-                    rate: 170,
-                    exit_key: "esc",
-                    port: 6238,
-                    update: true
-                })
-                changeConfig({
-                    channels: 8,
-                    gender: "male",
-                    rate: 170,
-                    exit_key: "esc",
-                    port: 6238,
-                    update: true
-                })
-                setUpdate(true)
-            }
         }
 
         func()
@@ -138,11 +118,11 @@ function Config() {
             setSnackBar("error", "There are no changes to undo")
             return
         }
-        setChannels(config.channels !== 0 ? config.channels : 8)
-        setGender(config.gender !== "" ? config.gender : "male")
-        setRate(config.rate !== 0 ? config.rate : 170)
-        setExit(config.exit_key !== "" ? config.exit_key : "esc")
-        setPort(config.port !== 0 ? config.port : 6238)
+        setChannels(config.channels)
+        setGender(config.gender)
+        setRate(config.rate)
+        setExit(config.exit_key)
+        setPort(config.port)
         setUpdate(config.update)
 
         setPortError(false)
