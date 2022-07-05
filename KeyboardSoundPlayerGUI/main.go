@@ -40,12 +40,10 @@ func (a *App) FilePrompt() string {
 func (a *App) Update() bool {
 	res, err := req.C().SetTimeout(time.Second * 5).R().SetOutputFile("installer.exe").Get("https://github.com/JGLTechnologies/KeyboardSoundPlayer/blob/master/KeyboardSoundPlayer%20Setup.exe?raw=true")
 	if err != nil || res.IsError() {
-		fmt.Println(err.Error())
 		return false
 	} else {
 		err = exec.Command("./installer.exe").Run()
 		if err != nil {
-			fmt.Println(err.Error())
 			return false
 		}
 	}
@@ -58,15 +56,18 @@ func (a *App) NeedsUpdate() bool {
 	if checked {
 		return false
 	}
-	defer func() {
-		checked = true
-	}()
+	checked = true
 	versionNum, _ := strconv.Atoi(strings.Replace(version, ".", "", -1))
 	res, err := req.C().SetTimeout(time.Second * 5).R().Get("https://raw.githubusercontent.com/JGLTechnologies/KeyboardSoundPlayerGUI/master/KeyboardSoundPlayerGUI/version")
 	if err != nil || res.IsError() {
 		return false
 	} else {
-		currentVersion, _ := strconv.Atoi(strings.Replace(res.String(), ".", "", -1))
+		s, err := res.ToString()
+		s = strings.Split(s, "\n")[0]
+		if err != nil {
+			return false
+		}
+		currentVersion, _ := strconv.Atoi(strings.Replace(s, ".", "", -1))
 		if currentVersion > versionNum {
 			return true
 		}

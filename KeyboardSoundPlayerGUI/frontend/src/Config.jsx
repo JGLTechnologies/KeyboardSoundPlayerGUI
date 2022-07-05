@@ -126,7 +126,6 @@ function Config() {
             exit_key: exit,
             port: Math.trunc(parseInt(port))
         }
-        console.log(config,currentConfig)
         if (JSON.stringify(config) === JSON.stringify(currentConfig)) {
             setSnackBar("error", "There are no changes to undo")
             return
