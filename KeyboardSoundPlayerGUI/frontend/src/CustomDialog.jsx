@@ -1,4 +1,5 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
+import {GetConfig, SetConfig} from "../wailsjs/go/main/Config";
 
 export function InputDialog({
                          setDialog,
@@ -76,11 +77,13 @@ export function MessageDialog({
                 {dialogState.dialog}
             </DialogTitle>
             <DialogActions>
-                <Button onClick={() => {
+                <Button onClick={async () => {
                     setDialog({
                         open: false,
                         dialog: "",
                     })
+                    let config = await GetConfig()
+                    await SetConfig({...config, update: false})
                 }}>{button1}</Button>
                 <Button onClick={onClick}>
                     {button2}

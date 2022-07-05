@@ -17,6 +17,7 @@ function Config() {
     let [port, setPort] = useState("")
     let [channels, setChannels] = useState("")
     let [exit, setExit] = useState("")
+    let [update, setUpdate] = useState(true)
 
     let [channelError, setChannelError] = useState(false)
     let [rateError, setRateError] = useState(false)
@@ -43,6 +44,7 @@ function Config() {
             setRate(currentConfig.rate !== 0 ? currentConfig.rate : 170)
             setExit(currentConfig.exit_key !== "" ? currentConfig.exit_key : "esc")
             setPort(currentConfig.port !== 0 ? currentConfig.port : 6238)
+            setUpdate(currentConfig.update)
             changeConfig(currentConfig)
 
             if (currentConfig.port === 0 && currentConfig.gender === "" && currentConfig.channels === 0 && currentConfig.rate === 0 && currentConfig.exit_key === "") {
@@ -51,15 +53,18 @@ function Config() {
                     gender: "male",
                     rate: 170,
                     exit_key: "esc",
-                    port: 6238
+                    port: 6238,
+                    update: true
                 })
                 changeConfig({
                     channels: 8,
                     gender: "male",
                     rate: 170,
                     exit_key: "esc",
-                    port: 6238
+                    port: 6238,
+                    update: true
                 })
+                setUpdate(true)
             }
         }
 
@@ -104,14 +109,16 @@ function Config() {
             gender: gender,
             rate: Math.trunc(parseInt(rate)),
             exit_key: exit,
-            port: Math.trunc(parseInt(port))
+            port: Math.trunc(parseInt(port)),
+            update: Boolean(update)
         })
         changeConfig({
             channels: Math.trunc(parseInt(channels)),
             gender: gender,
             rate: Math.trunc(parseInt(rate)),
             exit_key: exit,
-            port: Math.trunc(parseInt(port))
+            port: Math.trunc(parseInt(port)),
+            update: Boolean(update)
         })
         setSnackBar("success", "Your config has been saved")
         await restart()
@@ -124,7 +131,8 @@ function Config() {
             gender: gender,
             rate: Math.trunc(parseInt(rate)),
             exit_key: exit,
-            port: Math.trunc(parseInt(port))
+            port: Math.trunc(parseInt(port)),
+            update: update
         }
         if (JSON.stringify(config) === JSON.stringify(currentConfig)) {
             setSnackBar("error", "There are no changes to undo")
@@ -135,6 +143,7 @@ function Config() {
         setRate(config.rate !== 0 ? config.rate : 170)
         setExit(config.exit_key !== "" ? config.exit_key : "esc")
         setPort(config.port !== 0 ? config.port : 6238)
+        setUpdate(config.update)
 
         setPortError(false)
         setRateError(false)
@@ -150,19 +159,22 @@ function Config() {
         setRate(170)
         setExit("esc")
         setPort(6238)
+        setUpdate(true)
         SetConfig({
             channels: 8,
             gender: "male",
             rate: 170,
             exit_key: "esc",
-            port: 6238
+            port: 6238,
+            update: true
         })
         changeConfig({
             channels: 8,
             gender: "male",
             rate: 170,
             exit_key: "esc",
-            port: 6238
+            port: 6238,
+            update: true
         })
         setPortError(false)
         setRateError(false)
@@ -189,7 +201,6 @@ function Config() {
             <Head name="Config"/>
             <div id="config">
                 <h2>Config</h2>
-                <br/>
                 <br/>
                 <FormControl>
                     <Stack direction="column" spacing={3}>
@@ -219,6 +230,13 @@ function Config() {
                                    }}>
                             <MenuItem value="male">Male</MenuItem>
                             <MenuItem value="female">Female</MenuItem>
+                        </TextField>
+                        <TextField required size="small" label="Ask For Updates" value={update} select
+                                   onChange={(e) => {
+                                       setUpdate(e.target.value)
+                                   }}>
+                            <MenuItem value="true">True</MenuItem>
+                            <MenuItem value="false">False</MenuItem>
                         </TextField>
                         <br/>
                         <br/>

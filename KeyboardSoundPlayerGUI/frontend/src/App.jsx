@@ -4,6 +4,7 @@ import {AddKey, FilePrompt, IsOnline, NeedsUpdate, RequestPath, StartFile, Updat
 import "./assets/App.css"
 import {Alert, Snackbar, TextField} from "@mui/material";
 import {InputDialog, MessageDialog} from "./CustomDialog";
+import {GetConfig} from "../wailsjs/go/main/Config";
 
 function App() {
     let [key, setKey] = useState("")
@@ -37,6 +38,10 @@ function App() {
 
     useEffect(() => {
         async function checkUpdate() {
+            let config = await GetConfig()
+            if (!config.update) {
+                return
+            }
             let needsUpdate = await NeedsUpdate()
             if (needsUpdate) {
                 setUpdateDialog({
@@ -46,6 +51,7 @@ function App() {
                 })
             }
         }
+
         checkUpdate()
     })
 
@@ -191,11 +197,11 @@ function App() {
                 <button id="stop" disabled={stopDisabled} onClick={stopCallback}>Stop</button>
             </div>
             <InputDialog onClick={text} dialogState={txtDialog} setDialog={setTxtDialog} button1={"Cancel"}
-                          button2={"Ok"}/>
+                         button2={"Ok"}/>
             <InputDialog onClick={yt} dialogState={ytDialog} setDialog={setYTDialog} button1={"Cancel"}
-                          button2={"Ok"}/>
+                         button2={"Ok"}/>
             <MessageDialog onClick={update} dialogState={updateDialog} setDialog={setUpdateDialog} button1={"No"}
-                          button2={"Yes"}/>
+                           button2={"Yes"}/>
         </div>
     )
 }
