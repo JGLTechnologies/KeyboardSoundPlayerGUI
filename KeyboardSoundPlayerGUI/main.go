@@ -14,7 +14,7 @@ import (
 var assets embed.FS
 var client = req.C().SetTimeout(time.Second / 2)
 
-const version = "2.0.2"
+const version = "2.0.3"
 
 var checked = false
 

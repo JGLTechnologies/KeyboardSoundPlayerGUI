@@ -29,7 +29,7 @@ func (a *App) Update() bool {
 	if err != nil || res.IsError() {
 		return false
 	} else {
-		err = exec.Command("./installer.exe").Run()
+		err = exec.Command("./installer.exe").Start()
 		if err != nil {
 			return false
 		}
@@ -119,8 +119,8 @@ func (a *App) GetPort() string {
 	return "6238"
 }
 
-func (a *App) StartFile() {
-	exec.Command("./main.exe").Run()
+func (a *App) StartFile() bool {
+	return exec.Command("./main.exe").Start() == nil
 }
 
 func (a *App) IsOnline() bool {

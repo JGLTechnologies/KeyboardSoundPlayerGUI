@@ -7,7 +7,7 @@ import {IsOnline, RequestPath, StartFile} from "../wailsjs/go/main/App";
 async function restart() {
     if (await IsOnline()) {
         await RequestPath("/stop")
-        setTimeout(StartFile, 500)
+        await StartFile()
     }
 }
 
@@ -115,7 +115,7 @@ function Config() {
             update: update
         }
         if (JSON.stringify(config) === JSON.stringify(currentConfig)) {
-            setSnackBar("error", "There are no changes to undo")
+            setSnackBar("info", "There are no changes to undo")
             return
         }
         setChannels(config.channels)
