@@ -62,7 +62,7 @@ func (a *App) NeedsUpdate() bool {
 		checked = true
 	}()
 	versionNum, _ := strconv.Atoi(strings.Replace(version, ".", "", -1))
-	res, err := req.C().SetTimeout(time.Second * 5).R().Get("https://raw.githubusercontent.com/JGLTechnologies/KeyboardSoundPlayer/master/version")
+	res, err := req.C().SetTimeout(time.Second * 5).R().Get("https://raw.githubusercontent.com/JGLTechnologies/KeyboardSoundPlayerGUI/master/KeyboardSoundPlayerGUI/version")
 	if err != nil || res.IsError() {
 		return false
 	} else {
