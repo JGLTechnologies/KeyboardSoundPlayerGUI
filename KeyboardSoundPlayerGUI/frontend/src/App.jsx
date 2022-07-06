@@ -64,9 +64,7 @@ function App() {
     async function startCallback() {
         setStartDisabled(true)
         if (!await IsOnline()) {
-            if (!await StartFile()) {
-                setSnackBar("error", "Something went wrong while starting KeyboardSoundPlayer")
-            }
+            await StartFile()
         } else {
             setSnackBar("error", "KeyboardSoundPlayer is already started")
         }

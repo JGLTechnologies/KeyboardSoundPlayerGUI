@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/JGLTechnologies/SimpleFiles"
-	"github.com/imroc/req/v3"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"os"
 	"os/exec"
@@ -118,8 +117,8 @@ func (a *App) GetPort() string {
 	return "6238"
 }
 
-func (a *App) StartFile() bool {
-	return exec.Command("./main.exe").Start() == nil
+func (a *App) StartFile() {
+	exec.Command("./main.exe").Run()
 }
 
 func (a *App) IsOnline() bool {
