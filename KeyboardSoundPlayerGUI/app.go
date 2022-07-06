@@ -34,6 +34,7 @@ func (a *App) Update() bool {
 			return false
 		}
 	}
+	a.RequestPath("/stop")
 	runtime.Quit(a.ctx)
 	return true
 }

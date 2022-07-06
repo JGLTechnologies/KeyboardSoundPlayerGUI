@@ -6,6 +6,8 @@ import {Alert, Snackbar, TextField} from "@mui/material";
 import {InputDialog, MessageDialog} from "./CustomDialog";
 import {GetConfig} from "../wailsjs/go/main/Config";
 
+const re = new RegExp("^(http(s)??\\:\\/\\/)?(www\\.)?((youtube\\.com\\/watch\\?v=)|(youtu.be\\/))([a-zA-Z0-9\\-_])+")
+
 function App() {
     let [key, setKey] = useState("")
     let [startDisabled, setStartDisabled] = useState(false)
@@ -112,10 +114,7 @@ function App() {
             setYTDialog({...ytDialog, err: true, helper: "Invalid YouTube URL"})
             return
         }
-        if (!url.startsWith("https://")) {
-            url = "https://" + url
-        }
-        if (!url.includes("youtube.com")) {
+        if (!re.test(url)) {
             setYTDialog({...ytDialog, err: true, helper: "Invalid YouTube URL"})
             return
         }
