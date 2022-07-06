@@ -53,7 +53,7 @@ function App() {
         }
 
         checkUpdate()
-    })
+    }, [])
 
     function setSnackBar(level, msg) {
         setMSG(msg)
