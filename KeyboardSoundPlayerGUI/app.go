@@ -34,7 +34,6 @@ func (a *App) Update() bool {
 			return false
 		}
 	}
-	os.Remove("installer.exe")
 	runtime.Quit(a.ctx)
 	return true
 }
