@@ -110,9 +110,13 @@ function App() {
 
     async function yt(e) {
         let url = ytDialog.keyText
-        if (url === "") {
-            setYTDialog({...ytDialog, err: true, helper: "Invalid YouTube URL"})
-            return
+        if (!url.startsWith("https://")) {
+            if (url.startsWith("http://")) {
+                url = "https://" + url.slice(7)
+                console.log(url)
+            } else {
+                url = "https://" + url
+            }
         }
         if (!re.test(url)) {
             setYTDialog({...ytDialog, err: true, helper: "Invalid YouTube URL"})
