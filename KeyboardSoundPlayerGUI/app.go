@@ -44,7 +44,7 @@ func (a *App) NeedsUpdate() bool {
 	}
 	checked = true
 	versionNum, _ := strconv.Atoi(strings.Replace(version, ".", "", -1))
-	res, err := req.C().SetTimeout(time.Second * 5).R().Get("https://raw.githubusercontent.com/JGLTechnologies/KeyboardSoundPlayerGUI/master/KeyboardSoundPlayerGUI/version")
+	res, err := req.C().SetTimeout(time.Second * 5).R().Get("https://raw.githubusercontent.com/JGLTechnologies/KeyboardSoundPlayer/master/version")
 	if err != nil || res.IsError() {
 		return false
 	} else {
@@ -118,8 +118,13 @@ func (a *App) GetPort() string {
 	return "6238"
 }
 
-func (a *App) StartFile() {
-	exec.Command("./main.exe").Run()
+func (a *App) StartFile() bool {
+	cmd := exec.Command("./main.exe")
+	err := cmd.Start()
+	if err != nil {
+		return false
+	}
+	return true
 }
 
 func (a *App) IsOnline() bool {
