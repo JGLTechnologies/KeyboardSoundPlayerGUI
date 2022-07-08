@@ -69,13 +69,13 @@ function App() {
         if (re.test(url)) {
             setYTDialog({...ytDialog, err: false, helper: ""})
         }
-    }, [ytDialog])
+    }, [ytDialog.keyText])
 
     useEffect(() => {
         if (txtDialog.keyText !== "") {
             setTxtDialog({...txtDialog, err: false, helper: ""})
         }
-    }, [txtDialog])
+    }, [txtDialog.keyText])
 
     function setSnackBar(level, msg) {
         setMSG(msg)
@@ -227,7 +227,6 @@ function App() {
                          button2={"Ok"} onChange={(e) => {
                 let text = e.target.value
                 setTxtDialog({...txtDialog, keyText: text})
-
             }}/>
             <InputDialog onClick={yt} dialogState={ytDialog} setDialog={setYTDialog} button1={"Cancel"}
                          button2={"Ok"} onChange={(e) => {
