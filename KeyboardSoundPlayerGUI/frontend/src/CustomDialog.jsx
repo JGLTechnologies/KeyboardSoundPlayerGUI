@@ -2,12 +2,13 @@ import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} fr
 import {GetConfig, SetConfig} from "../wailsjs/go/main/Config";
 
 export function InputDialog({
-                         setDialog,
-                         dialogState,
-                         onClick,
-                         button1,
-                         button2
-                     }) {
+                                setDialog,
+                                dialogState,
+                                onClick,
+                                button1,
+                                button2,
+                                onChange,
+                            }) {
     return (
         <Dialog
             open={dialogState.open}
@@ -31,9 +32,7 @@ export function InputDialog({
                 <TextField variant="standard" error={dialogState.err} helperText={dialogState.helper}
                            value={dialogState.keyText}
                            size="small" required
-                           type="standard" onChange={(e) => {
-                    setDialog({...dialogState, keyText: e.target.value})
-                }}/>
+                           type="standard" onChange={onChange}/>
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => {
@@ -54,12 +53,12 @@ export function InputDialog({
 }
 
 export function MessageDialog({
-                           setDialog,
-                           dialogState,
-                           onClick,
-                           button1,
-                           button2,
-                       }) {
+                                  setDialog,
+                                  dialogState,
+                                  onClick,
+                                  button1,
+                                  button2,
+                              }) {
     return (
         <Dialog
             open={dialogState.open}

@@ -186,20 +186,32 @@ function Config() {
                     <Stack direction="column" spacing={3}>
                         <TextField onChange={(e) => {
                             setChannels(e.target.value)
+                            if (document.getElementById("channels").valueOf().checkValidity()) {
+                                setChannelError(false)
+                            }
                         }} value={channels} id="channels" error={channelError} required size="small" label="Channels"
                                    type="number"
                                    InputProps={{inputProps: {max: 100, min: 0}}}/>
                         <TextField onChange={(e) => {
                             setRate(e.target.value)
+                            if (document.getElementById("rate").valueOf().checkValidity()) {
+                                setRateError(false)
+                            }
                         }} value={rate} id="rate" error={rateError} required size="small"
                                    InputProps={{inputProps: {min: 1, max: 100000}}}
                                    type="number" label="Rate"/>
                         <TextField onChange={(e) => {
                             setExit(e.target.value)
+                            if (document.getElementById("exit_key").valueOf().checkValidity()) {
+                                setExitError(false)
+                            }
                         }} value={exit} id="exit_key" error={exitError} required size="small" type="text"
                                    label="Exit Key"/>
                         <TextField onChange={(e) => {
                             setPort(e.target.value)
+                            if (document.getElementById("port").valueOf().checkValidity()) {
+                                setPortError(false)
+                            }
                         }} value={port} id="port" error={portError} required size="small"
                                    InputProps={{inputProps: {min: 1, max: 60000}}}
                                    label="Port"

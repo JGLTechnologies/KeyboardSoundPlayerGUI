@@ -57,6 +57,26 @@ function App() {
         checkUpdate()
     }, [])
 
+    useEffect(() => {
+        let url = ytDialog.keyText
+        if (!url.startsWith("https://")) {
+            if (url.startsWith("http://")) {
+                url = "https://" + url.slice(7)
+            } else {
+                url = "https://" + url
+            }
+        }
+        if (re.test(url)) {
+            setYTDialog({...ytDialog, err: false, helper: ""})
+        }
+    }, [ytDialog])
+
+    useEffect(() => {
+        if (txtDialog.keyText !== "") {
+            setTxtDialog({...txtDialog, err: false, helper: ""})
+        }
+    }, [txtDialog])
+
     function setSnackBar(level, msg) {
         setMSG(msg)
         setLevel(level)
@@ -113,7 +133,6 @@ function App() {
         if (!url.startsWith("https://")) {
             if (url.startsWith("http://")) {
                 url = "https://" + url.slice(7)
-                console.log(url)
             } else {
                 url = "https://" + url
             }
@@ -188,6 +207,9 @@ function App() {
                 <br/>
                 <TextField size="small" required error={error} type="text" value={key} onChange={(e) => {
                     setKey(e.target.value)
+                    if (e.target.value !== "") {
+                        setError(false)
+                    }
                 }} placeholder="Type a key" InputProps={{inputProps: {maxLength: 10}}} label="Key"/>
                 <br/>
                 <br/>
@@ -202,9 +224,15 @@ function App() {
                 <button id="stop" disabled={stopDisabled} onClick={stopCallback}>Stop</button>
             </div>
             <InputDialog onClick={text} dialogState={txtDialog} setDialog={setTxtDialog} button1={"Cancel"}
-                         button2={"Ok"}/>
+                         button2={"Ok"} onChange={(e) => {
+                let text = e.target.value
+                setTxtDialog({...txtDialog, keyText: text})
+
+            }}/>
             <InputDialog onClick={yt} dialogState={ytDialog} setDialog={setYTDialog} button1={"Cancel"}
-                         button2={"Ok"}/>
+                         button2={"Ok"} onChange={(e) => {
+                setYTDialog({...ytDialog, keyText: e.target.value})
+            }}/>
             <MessageDialog onClick={update} dialogState={updateDialog} setDialog={setUpdateDialog} button1={"No"}
                            button2={"Yes"}/>
         </div>
