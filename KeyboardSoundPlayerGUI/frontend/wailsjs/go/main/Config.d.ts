@@ -4,4 +4,4 @@ import {main} from '../models';
 
 export function GetConfig():Promise<main.Config>;
 
-export function SetConfig(arg1:main.Config):void;
+export function SetConfig(arg1:main.Config):Promise<void>;
