@@ -5,8 +5,8 @@ go 1.19
 require (
 	github.com/JGLTechnologies/SimpleFiles v1.0.2
 	github.com/alexflint/go-filemutex v1.2.0
-	github.com/imroc/req/v3 v3.24.0
-	github.com/wailsapp/wails/v2 v2.0.0
+	github.com/imroc/req/v3 v3.25.0
+	github.com/wailsapp/wails/v2 v2.2.0
 )
 
 require (
@@ -38,6 +38,7 @@ require (
 	github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rivo/uniseg v0.4.2 // indirect
+	github.com/samber/lo v1.27.1 // indirect
 	github.com/tkrajina/go-reflector v0.5.6 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.1 // indirect
