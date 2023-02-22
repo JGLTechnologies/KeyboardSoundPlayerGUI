@@ -18,7 +18,7 @@ type App struct {
 }
 
 func (a *App) FilePrompt() string {
-	file, _ := runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{Filters: []runtime.FileFilter{runtime.FileFilter{
+	file, _ := runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{Filters: []runtime.FileFilter{{
 		Pattern: "*.mp3",
 	}}})
 	return file
@@ -26,7 +26,7 @@ func (a *App) FilePrompt() string {
 
 func (a *App) Update() bool {
 	res, err := req.C().SetTimeout(time.Second * 5).R().SetOutputFile("installer.exe").Get("https://github.com/JGLTechnologies/KeyboardSoundPlayer/blob/master/KeyboardSoundPlayer%20Setup.exe?raw=true")
-	if err != nil || res.IsError() {
+	if err != nil || res.IsErrorState() {
 		return false
 	} else {
 		err = exec.Command("./installer.exe").Start()
@@ -46,7 +46,7 @@ func (a *App) NeedsUpdate() bool {
 	checked = true
 	versionNum, _ := strconv.Atoi(strings.Replace(version, ".", "", -1))
 	res, err := req.C().SetTimeout(time.Second * 5).R().Get("https://raw.githubusercontent.com/JGLTechnologies/KeyboardSoundPlayer/master/version")
-	if err != nil || res.IsError() {
+	if err != nil || res.IsErrorState() {
 		return false
 	} else {
 		s, err := res.ToString()
