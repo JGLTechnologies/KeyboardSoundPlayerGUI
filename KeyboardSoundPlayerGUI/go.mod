@@ -5,8 +5,8 @@ go 1.20
 require (
 	github.com/JGLTechnologies/SimpleFiles v1.0.2
 	github.com/alexflint/go-filemutex v1.2.0
-	github.com/imroc/req/v3 v3.32.1
-	github.com/wailsapp/wails/v2 v2.3.1
+	github.com/imroc/req/v3 v3.33.2
+	github.com/wailsapp/wails/v2 v2.4.1
 )
 
 require (
@@ -18,7 +18,6 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
-	github.com/imdario/mergo v0.3.13 // indirect
 	github.com/jchv/go-winloader v0.0.0-20210711035445-715c2860da7e // indirect
 	github.com/labstack/echo/v4 v4.10.2 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
