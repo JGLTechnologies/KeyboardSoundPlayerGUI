@@ -83,8 +83,13 @@ func (a *App) SetKeys(keys map[string]string) {
 	file.WriteJSON(&keys)
 }
 
+func (a *App) RemoveMP3(file string) {
+	os.Remove(fmt.Sprintf("%v.mp3", file))
+}
+
 func (a *App) AddKey(key string, value string) {
 	key = strings.ToLower(key)
+	a.RemoveMP3(key)
 	file, err := SimpleFiles.New("keys.json")
 	if err != nil {
 		return
@@ -96,10 +101,6 @@ func (a *App) AddKey(key string, value string) {
 	}
 	keys[key] = value
 	file.WriteJSON(&keys)
-}
-
-func (a *App) RemoveMP3(file string) {
-	os.Remove(fmt.Sprintf("%v.mp3", file))
 }
 
 func (a *App) GetPort() string {
